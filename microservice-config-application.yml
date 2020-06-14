@@ -1,0 +1,20 @@
+spring:
+    profiles:
+      active: dev
+---
+
+server:
+  port: 4001
+spring:
+  profiles: dev
+  application:
+    name: microservice-config-dev
+
+---
+
+server:
+  port: 4002 #端口号
+spring:
+  profiles: prod # 生产环境
+  application:
+    name: microservice-config-prod
