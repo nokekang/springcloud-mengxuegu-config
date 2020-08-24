@@ -1,36 +1,23 @@
+server:
+  port: 80
 
 spring:
-  profiles: dev # 生产环境
-server:
-  port: 6002 # 服务端口
-eureka:
-  instance:
-    hostname: eureka6002.com # eureka服务端的实例名称
-  client:
-    registerWithEureka: false # 服务注册，false表示不将自已注册到Eureka服务中
-    fetchRegistry: false # 服务发现，false表示自己不从Eureka服务中获取注册信息
-    serviceUrl:    # Eureka客户端与Eureka服务端的交互地址，集群版配置对方的地址，单机版配置自己（如果不配置则默认本机8761端口）
-#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-      #集群版
-      defaultZone: http://eureka6001.com:6001/eureka/
-  server:
-    enable-self-preservation: false # 禁用自我保护机制
+  application:
+    name: microservice-consumer
+  profiles: test
 
----
-
-spring:
-  profiles: test # 生产环境
-server:
-  port: 6001 # 服务端口
 eureka:
-  instance:
-    hostname: eureka6002.com # eureka服务端的实例名称
   client:
-    registerWithEureka: false # 服务注册，false表示不将自已注册到Eureka服务中
-    fetchRegistry: false # 服务发现，false表示自己不从Eureka服务中获取注册信息
-    serviceUrl:    # Eureka客户端与Eureka服务端的交互地址，集群版配置对方的地址，单机版配置自己（如果不配置则默认本机8761端口）
-#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-      #集群版
-      defaultZone: http://eureka6001.com:6001/eureka/
-  server:
-    enable-self-preservation: true # 禁用自我保护机制
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      defaultZone: http://eureka6001.com:6001/eureka/,http://eureka6002.com:6002/eureka/
+  instance:
+    hostname: consumer # eureka服务端的实例名称
+    instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
+    prefer-ip-address: true # 访问路径可以显示ip地址
+
+feign:
+  hystrix:
+    enabled: true #开启客户端熔断
+
