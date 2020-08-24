@@ -32,7 +32,7 @@ spring:
 
 ---
 server:
-  port: 8001
+  port: 8002
 eureka:
   instance:
     hostname: provider02 # eureka服务端的实例名称
