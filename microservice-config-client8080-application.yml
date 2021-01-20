@@ -5,8 +5,7 @@ spring:
       name: microservice-config-client8080
 ---
 
-server:
-  port: 4002
+
 spring:
   profiles: dev
 
